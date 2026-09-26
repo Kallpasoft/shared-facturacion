@@ -1,0 +1,36 @@
+{
+  "name": "@kallpasoft/facturacion",
+  "version": "0.1.0",
+  "description": "Cliente, tipos y hooks de TanStack Query del servicio maestro de facturación electrónica, sin UI",
+  "license": "UNLICENSED",
+  "private": false,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "build": "tsc",
+    "prepare": "tsc",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@tanstack/react-query": "^5.0.0",
+    "axios": "^1.6.0",
+    "react": "^18.0.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@tanstack/react-query": "^5.100.10",
+    "@types/react": "^18.3.0",
+    "axios": "^1.16.0",
+    "react": "^18.3.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}
