@@ -1,6 +1,6 @@
 {
   "name": "@kallpasoft/facturacion",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Cliente, tipos y hooks de TanStack Query del servicio maestro de facturación electrónica, sin UI",
   "license": "UNLICENSED",
   "private": false,

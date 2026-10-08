@@ -82,6 +82,10 @@ useCrearSerieFiscal({
   `Empresa`). Sacarlos al paquete obligaría a compartir también el design system.
 - **Toasts**: ningún hook muestra mensajes. El producto los pone en `onSuccess` / `onError` de
   `mutate`, y para el texto de error usa `mensajeErrorFacturacion(e, fallback)`.
+  Para el error de **emitir** usa `clasificarErrorEmision(e)`: devuelve `{ clase, titulo, mensaje,
+  detalleTecnico }` con `clase` = `temporal` (502/503/504), `sin_conexion` (sin respuesta) o `rechazo`
+  (el resto; normaliza `detail` string, objeto o lista 422). El producto pinta ámbar o rojo según la
+  clase, pone «Reintentar» en las dos primeras y pliega `detalleTecnico` (el texto crudo del proveedor).
 - **Variables de entorno**: el paquete no lee `import.meta.env`. La `baseURL` la pasa el producto.
 
 ## Desarrollo

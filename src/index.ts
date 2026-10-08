@@ -31,6 +31,11 @@ export {
   serieFiscalValida,
   type SerieMutationOptions,
 } from "./hooks/series.js";
-export { mensajeErrorFacturacion } from "./errores.js";
+export {
+  mensajeErrorFacturacion,
+  clasificarErrorEmision,
+  type ClaseErrorEmision,
+  type ErrorEmision,
+} from "./errores.js";
 export { validarDatosEmisor, type DatosEmisorInput, type ValidacionEmisor } from "./validar-datos-emisor.js";
 export type * from "./types.js";
