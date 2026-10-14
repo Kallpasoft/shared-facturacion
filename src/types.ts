@@ -58,6 +58,12 @@ export interface BajaCdrResponse {
   cdr_zip_base64: string;
 }
 
+/** Response of GET /comprobantes/{ref}/cdr (proof of receipt of the issue). */
+export type CdrResponse = Omit<BajaCdrResponse, "estado_baja">;
+
+/** Response of GET /comprobantes/{ref}/xml (signed XML of the issue, zipped). */
+export type XmlResponse = Omit<CdrResponse, "cdr_zip_base64"> & { xml_zip_base64: string };
+
 export interface ComprobanteListItem {
   id: string;
   tipo: TipoComprobante;
