@@ -22,6 +22,8 @@ export {
   useComprobantes,
   useComprobante,
   descargarBajaCdr,
+  descargarEmisionCdr,
+  descargarEmisionXml,
 } from "./hooks/comprobantes.js";
 export {
   useSeries,

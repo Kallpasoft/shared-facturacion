@@ -6,9 +6,11 @@ import type {
   AnularComprobanteRequest,
   BajaCdrResponse,
   BajaResult,
+  CdrResponse,
   ComprobanteListItem,
   ComprobanteResult,
   EmitirComprobanteRequest,
+  XmlResponse,
 } from "../types.js";
 
 const KEY = facturacionKeys.comprobantes;
@@ -74,21 +76,40 @@ export function useConsultarBaja() {
 }
 
 /**
- * Downloads the baja CDR zip. Auth travels with axios (cookie / proxy), so the
- * base64 is fetched and the Blob built client-side; a plain <a href> would not
- * carry it. Throws the axios error (404/409) for the caller to report.
+ * Auth travels with axios (cookie / proxy), so the base64 is fetched and the Blob
+ * built client-side; a plain <a href> would not carry it.
  */
-export async function descargarBajaCdr(api: AxiosInstance, documentoRef: string | number): Promise<void> {
-  const { data } = await api.get<BajaCdrResponse>(`/comprobantes/baja/${documentoRef}/cdr`);
-  const bytes = Uint8Array.from(atob(data.cdr_zip_base64), (ch) => ch.charCodeAt(0));
+function descargarZip(base64: string, filename: string): void {
+  const bytes = Uint8Array.from(atob(base64), (ch) => ch.charCodeAt(0));
   const url = URL.createObjectURL(new Blob([bytes], { type: "application/zip" }));
   const a = document.createElement("a");
   a.href = url;
-  a.download = data.filename || `constancia-baja-${documentoRef}.zip`;
+  a.download = filename;
   document.body.appendChild(a);
   a.click();
   a.remove();
   URL.revokeObjectURL(url);
+}
+
+/** Downloads the baja CDR zip. Throws the axios error (404/409) for the caller to report. */
+export async function descargarBajaCdr(api: AxiosInstance, documentoRef: string | number): Promise<void> {
+  const { data } = await api.get<BajaCdrResponse>(`/comprobantes/baja/${documentoRef}/cdr`);
+  descargarZip(data.cdr_zip_base64, data.filename || `constancia-baja-${documentoRef}.zip`);
+}
+
+/**
+ * Downloads the CDR zip of the issued comprobante (SUNAT's proof of receipt).
+ * Throws the axios error (404 not accepted, 409 no CDR yet) for the caller to report.
+ */
+export async function descargarEmisionCdr(api: AxiosInstance, documentoRef: string | number): Promise<void> {
+  const { data } = await api.get<CdrResponse>(`/comprobantes/${documentoRef}/cdr`);
+  descargarZip(data.cdr_zip_base64, data.filename || `constancia-${documentoRef}.zip`);
+}
+
+/** Downloads the signed XML (zip) of the issued comprobante. Throws like `descargarEmisionCdr`. */
+export async function descargarEmisionXml(api: AxiosInstance, documentoRef: string | number): Promise<void> {
+  const { data } = await api.get<XmlResponse>(`/comprobantes/${documentoRef}/xml`);
+  descargarZip(data.xml_zip_base64, data.filename || `xml-${documentoRef}.zip`);
 }
 
 /** Comprobantes issued by the tenant. */

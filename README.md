@@ -86,6 +86,9 @@ useCrearSerieFiscal({
   detalleTecnico }` con `clase` = `temporal` (502/503/504), `sin_conexion` (sin respuesta) o `rechazo`
   (el resto; normaliza `detail` string, objeto o lista 422). El producto pinta ámbar o rojo según la
   clase, pone «Reintentar» en las dos primeras y pliega `detalleTecnico` (el texto crudo del proveedor).
+- **Descargas** (`descargarEmisionCdr`, `descargarEmisionXml`, `descargarBajaCdr`): son funciones
+  sueltas que reciben `useFacturacionClient()`, no hooks. Bajan el zip en base64 y lo guardan, y
+  dejan pasar el error de axios (404/409) para que el producto muestre el `detail` del servicio.
 - **Variables de entorno**: el paquete no lee `import.meta.env`. La `baseURL` la pasa el producto.
 
 ## Desarrollo
